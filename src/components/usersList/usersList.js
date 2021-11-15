@@ -1,5 +1,5 @@
 import { useQuery } from '@apollo/client'
-import { useContext } from 'react'
+import { useContext, useEffect } from 'react'
 import { GET_USERS } from '../../api'
 import { Context } from '../../App'
 import './usersList.css'
@@ -22,9 +22,15 @@ const UserCard = ({ user }) => {
 }
 
 const UsersList = () => {
-	const { loading, error, data } = useQuery(GET_USERS)
+	const { selectedUser } = useContext(Context)
+	const { loading, error, data, refetch } = useQuery(GET_USERS)
+
+	useEffect(() => {
+		refetch()
+	}, [selectedUser])
+
 	if (loading) return <p>Loading...</p>
-	if (error) return <p>Error(</p>
+	if (error) return `Error! ${error}`
 	return (
 		<div className='users-list'>
 			{data.users.map((user) => (
