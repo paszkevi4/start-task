@@ -11,5 +11,13 @@
 .modal-component {
 	background: #fff;
 	width: 700px;
-	height: 800px;
+	height: 500px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	text-align: center;
+}
+
+.modal-component h2 {
+	margin-bottom: 30px;
 }

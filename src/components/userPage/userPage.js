@@ -1,9 +1,9 @@
-import { useLazyQuery, useMutation, useQuery } from '@apollo/client'
+import { useMutation, useQuery } from '@apollo/client'
 import { useContext, useEffect, useState } from 'react'
 import { DELETE_USER, GET_SINGLE_USER, UPDATE_USER } from '../../api'
 import { Context } from '../../App'
-import { FormField } from './formField'
-// import './usersList.css'
+import { FormField } from '../formField/formField'
+import './userPage.css'
 
 const UsersPage = () => {
 	const { selectedUser: userId, setSelectedUser } = useContext(Context)
@@ -59,6 +59,7 @@ const UsersPage = () => {
 
 	return (
 		<form className='user-page'>
+			<h2>User</h2>
 			<FormField
 				name='name'
 				startValue={userData?.name}
@@ -79,8 +80,10 @@ const UsersPage = () => {
 				startValue={userData?.timestamp}
 				onChange={setUserData}
 			/>
-			<button onClick={submitForm}>Submit</button>
-			<button onClick={handleDeleteUser}>Delete User</button>
+			<div className='button-container'>
+				<button onClick={submitForm}>Submit</button>
+				<button onClick={handleDeleteUser}>Delete User</button>
+			</div>
 		</form>
 	)
 }
