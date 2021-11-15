@@ -23,12 +23,7 @@ const UserCard = ({ user }) => {
 
 const UsersList = ({ toggleIsModalOpen }) => {
 	const { selectedUser } = useContext(Context)
-	const { loading, error, data, refetch } = useQuery(GET_USERS, {
-		variables: {
-			offset: 0,
-			limit: 10,
-		},
-	})
+	const { loading, error, data, refetch } = useQuery(GET_USERS)
 
 	useEffect(() => {
 		refetch()
