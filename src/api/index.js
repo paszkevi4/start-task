@@ -1,21 +1,27 @@
 import { gql } from '@apollo/client'
 
+export const USER_FRAGMENT = gql`
+	fragment UserFragment on users {
+		id
+		name
+		rocket
+	}
+`
+
 export const GET_USERS = gql`
+	${USER_FRAGMENT}
 	query getUsers($limit: Int!, $offset: Int!) {
 		users(limit: $limit, offset: $offset, order_by: { id: asc }) {
-			id
-			name
-			rocket
+			...UserFragment
 		}
 	}
 `
 
 export const GET_SINGLE_USER = gql`
+	${USER_FRAGMENT}
 	query getUsers($userId: uuid!) {
 		user: users_by_pk(id: $userId) {
-			id
-			name
-			rocket
+			...UserFragment
 			twitter
 			timestamp
 		}
@@ -23,25 +29,24 @@ export const GET_SINGLE_USER = gql`
 `
 
 export const CREATE_USER = gql`
+	${USER_FRAGMENT}
 	mutation create($objects: [users_insert_input!]!) {
 		user: insert_users(objects: $objects) {
 			returning {
+				...UserFragment
 				twitter
 				timestamp
-				rocket
-				name
-				id
 			}
 		}
 	}
 `
 
 export const UPDATE_USER = gql`
+	${USER_FRAGMENT}
 	mutation updateUser($where: users_bool_exp!, $set: users_set_input) {
 		update_users(where: $where, _set: $set) {
 			returning {
-				name
-				rocket
+				...UserFragment
 			}
 		}
 	}
