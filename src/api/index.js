@@ -30,7 +30,7 @@ export const GET_SINGLE_USER = gql`
 
 export const CREATE_USER = gql`
 	${USER_FRAGMENT}
-	mutation create($objects: [users_insert_input!]!) {
+	mutation createUser($objects: [users_insert_input!]!) {
 		user: insert_users(objects: $objects) {
 			returning {
 				...UserFragment
@@ -47,6 +47,8 @@ export const UPDATE_USER = gql`
 		update_users(where: $where, _set: $set) {
 			returning {
 				...UserFragment
+				twitter
+				timestamp
 			}
 		}
 	}

@@ -1,6 +1,11 @@
-import { useMutation } from '@apollo/client'
+import { gql, useMutation } from '@apollo/client'
 import { useContext, useState } from 'react'
-import { CREATE_USER } from '../../api'
+import {
+	CREATE_USER,
+	GET_SINGLE_USER,
+	GET_USERS,
+	USER_FRAGMENT,
+} from '../../api'
 import { Context } from '../../App'
 import { FormField } from '../formField/formField'
 import './createUserModal.css'
@@ -19,7 +24,22 @@ const CreateUserModal = ({ toggleIsOpen }) => {
 		}
 	}
 
-	const [createUser] = useMutation(CREATE_USER)
+	const [createUser] = useMutation(CREATE_USER, {
+		update: (cache, { data }) => {
+			const createdUser = data.user.returning[0]
+			cache.modify({
+				fields: {
+					users(existingUsers = []) {
+						const newUserRef = cache.writeFragment({
+							data: createdUser,
+							fragment: USER_FRAGMENT,
+						})
+						return [newUserRef, ...existingUsers]
+					},
+				},
+			})
+		},
+	})
 
 	const handleCreateUser = async (e) => {
 		e.preventDefault()
@@ -28,6 +48,7 @@ const CreateUserModal = ({ toggleIsOpen }) => {
 				objects: [userData],
 			},
 		})
+
 		setSelectedUser(r.data?.user?.returning?.[0]?.id)
 		toggleIsOpen()
 	}

@@ -1,6 +1,11 @@
 import { useMutation, useQuery } from '@apollo/client'
 import { useContext, useEffect, useState } from 'react'
-import { DELETE_USER, GET_SINGLE_USER, UPDATE_USER } from '../../api'
+import {
+	DELETE_USER,
+	GET_SINGLE_USER,
+	UPDATE_USER,
+	USER_FRAGMENT,
+} from '../../api'
 import { Context } from '../../App'
 import { FormField } from '../formField/formField'
 import './userPage.css'
@@ -9,7 +14,7 @@ const UsersPage = () => {
 	const { selectedUser: userId, setSelectedUser } = useContext(Context)
 	const [userData, setUserData] = useState({})
 
-	const { loading, error, data, refetch } = useQuery(GET_SINGLE_USER, {
+	const { loading, error, data } = useQuery(GET_SINGLE_USER, {
 		variables: { userId },
 	})
 
@@ -17,7 +22,6 @@ const UsersPage = () => {
 		variables: {
 			where: { id: { _eq: userId } },
 		},
-		onCompleted: refetch,
 	})
 
 	const [deleteUser] = useMutation(DELETE_USER, {
@@ -37,14 +41,26 @@ const UsersPage = () => {
 	const submitForm = (e) => {
 		e.preventDefault()
 		const { name, rocket, twitter, timestamp } = userData
-		const newR = new Date(timestamp)
-		if (!newR.getTime()) {
+		const newDate = new Date(timestamp)
+		if (!newDate.getTime()) {
 			console.log('Time is invalid')
 			return
 		}
 		updateUser({
 			variables: {
 				set: { name, rocket, twitter, timestamp: new Date(timestamp) },
+			},
+			optimisticResponse: {
+				update_users: {
+					returning: {
+						name,
+						rocket,
+						twitter,
+						timestamp,
+						id: Date.now(),
+						__typename: 'users',
+					},
+				},
 			},
 		})
 	}
