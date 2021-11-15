@@ -1,0 +1,19 @@
+.users-list {
+	overflow-y: scroll;
+	overflow-x: hidden;
+}
+
+.user-card {
+	padding: 10px;
+	margin: 10px;
+	background-color: #fff;
+	display: grid;
+	grid-template-columns: 50px 1fr;
+	grid-gap: 5px;
+	cursor: pointer;
+	border-bottom: 2px solid transparent;
+}
+
+.user-card_active {
+	border-bottom: 2px solid red;
+}

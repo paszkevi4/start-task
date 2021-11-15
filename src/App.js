@@ -1,25 +1,36 @@
-import logo from './logo.svg';
-import './App.css';
+import { createContext, useState } from 'react'
+import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client'
+import UsersList from './components/usersList/usersList'
+import './App.css'
+import UsersPage from './components/userPage/userPage'
+import { RenderIf } from './utils'
+
+export const Context = createContext()
+
+const client = new ApolloClient({
+	uri: 'https://api.spacex.land/graphql/',
+	cache: new InMemoryCache(),
+})
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+	const [selectedUser, setSelectedUser] = useState('')
+	return (
+		<Context.Provider
+			value={{
+				selectedUser,
+				setSelectedUser,
+			}}
+		>
+			<ApolloProvider client={client}>
+				<div className='app'>
+					<UsersList />
+					<RenderIf condition={selectedUser}>
+						<UsersPage />
+					</RenderIf>
+				</div>
+			</ApolloProvider>
+		</Context.Provider>
+	)
 }
 
-export default App;
+export default App
