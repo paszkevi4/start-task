@@ -1,4 +1,4 @@
-export const FormField = ({ name, startValue, onChange }) => {
+export const FormField = ({ name, startValue = '', onChange }) => {
 	return (
 		<div>
 			<p>{name}: </p>

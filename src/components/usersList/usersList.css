@@ -17,3 +17,11 @@
 .user-card_active {
 	border-bottom: 2px solid red;
 }
+
+.create-user__button {
+	padding: 10px;
+	margin: 10px;
+	background-color: #fff;
+	text-align: center;
+	cursor: pointer;
+}

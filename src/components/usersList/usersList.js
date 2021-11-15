@@ -21,7 +21,7 @@ const UserCard = ({ user }) => {
 	)
 }
 
-const UsersList = () => {
+const UsersList = ({ toggleIsModalOpen }) => {
 	const { selectedUser } = useContext(Context)
 	const { loading, error, data, refetch } = useQuery(GET_USERS)
 
@@ -33,6 +33,9 @@ const UsersList = () => {
 	if (error) return `Error! ${error}`
 	return (
 		<div className='users-list'>
+			<p className='create-user__button' onClick={toggleIsModalOpen}>
+				+ CREATE USER
+			</p>
 			{data.users.map((user) => (
 				<UserCard user={user} />
 			))}

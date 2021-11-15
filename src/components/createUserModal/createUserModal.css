@@ -1,0 +1,15 @@
+.modal-window {
+	background-color: rgba(0, 0, 0, 0.3);
+	position: absolute;
+	height: 100vh;
+	width: 100vw;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.modal-component {
+	background: #fff;
+	width: 700px;
+	height: 800px;
+}

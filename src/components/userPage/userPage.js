@@ -49,7 +49,7 @@ const UsersPage = () => {
 		})
 	}
 
-	const DeleteSelecteduser = (e) => {
+	const handleDeleteUser = (e) => {
 		e.preventDefault()
 		deleteUser()
 	}
@@ -61,26 +61,26 @@ const UsersPage = () => {
 		<form className='user-page'>
 			<FormField
 				name='name'
-				startValue={userData?.name || ''}
+				startValue={userData?.name}
 				onChange={setUserData}
 			/>
 			<FormField
 				name='twitter'
-				startValue={userData?.twitter || ''}
+				startValue={userData?.twitter}
 				onChange={setUserData}
 			/>
 			<FormField
 				name='rocket'
-				startValue={userData?.rocket || ''}
+				startValue={userData?.rocket}
 				onChange={setUserData}
 			/>
 			<FormField
 				name='timestamp'
-				startValue={userData?.timestamp || ''}
+				startValue={userData?.timestamp}
 				onChange={setUserData}
 			/>
 			<button onClick={submitForm}>Submit</button>
-			<button onClick={DeleteSelecteduser}>Delete User</button>
+			<button onClick={handleDeleteUser}>Delete User</button>
 		</form>
 	)
 }
