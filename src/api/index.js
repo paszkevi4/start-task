@@ -1,8 +1,8 @@
 import { gql } from '@apollo/client'
 
 export const GET_USERS = gql`
-	query getUsers {
-		users {
+	query getUsers($limit: Int!, $offset: Int!) {
+		users(limit: $limit, offset: $offset, order_by: { id: asc }) {
 			id
 			name
 			rocket

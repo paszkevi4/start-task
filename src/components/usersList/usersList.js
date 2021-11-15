@@ -23,7 +23,12 @@ const UserCard = ({ user }) => {
 
 const UsersList = ({ toggleIsModalOpen }) => {
 	const { selectedUser } = useContext(Context)
-	const { loading, error, data, refetch } = useQuery(GET_USERS)
+	const { loading, error, data, refetch, fetchMore } = useQuery(GET_USERS, {
+		variables: {
+			offset: 0,
+			limit: 10,
+		},
+	})
 
 	useEffect(() => {
 		refetch()
@@ -39,6 +44,25 @@ const UsersList = ({ toggleIsModalOpen }) => {
 			{data.users.map((user) => (
 				<UserCard user={user} />
 			))}
+			<p
+				className='create-user__button'
+				onClick={() =>
+					fetchMore({
+						variables: {
+							offset: data.users.length,
+						},
+						updateQuery: (prevData, { fetchMoreResult }) => {
+							fetchMoreResult.users = [
+								...prevData.users,
+								...fetchMoreResult.users,
+							]
+							return fetchMoreResult
+						},
+					})
+				}
+			>
+				LOAD MORE
+			</p>
 		</div>
 	)
 }
