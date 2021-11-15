@@ -37,7 +37,7 @@ const UsersList = ({ toggleIsModalOpen }) => {
 				+ CREATE USER
 			</p>
 			{data.users.map((user) => (
-				<UserCard user={user} />
+				<UserCard key={user.id} user={user} />
 			))}
 			<p
 				className='create-user__button'
