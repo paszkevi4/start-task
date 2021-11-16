@@ -1,17 +1,11 @@
 import { useMutation, useQuery } from '@apollo/client'
-import { useContext, useEffect, useState } from 'react'
-import {
-	DELETE_USER,
-	GET_SINGLE_USER,
-	UPDATE_USER,
-	USER_FRAGMENT,
-} from '../../api'
-import { Context } from '../../App'
+import { useEffect, useState } from 'react'
+import { DELETE_USER, GET_SINGLE_USER, UPDATE_USER } from '../../api'
 import { FormField } from '../formField/formField'
 import './userPage.css'
 
-const UsersPage = () => {
-	const { selectedUser: userId, setSelectedUser } = useContext(Context)
+const UsersPage = (props) => {
+	const userId = props.match.params.userId
 	const [userData, setUserData] = useState({})
 
 	const { loading, error, data } = useQuery(GET_SINGLE_USER, {
@@ -28,7 +22,19 @@ const UsersPage = () => {
 		variables: {
 			where: { id: { _eq: userId } },
 		},
-		onCompleted: () => setSelectedUser(''),
+		update: (cache, { data }) => {
+			const deletedUserId = data.delete_users?.returning?.[0]?.id
+			cache.modify({
+				fields: {
+					users(existingUsers = [], { readField }) {
+						return existingUsers.filter(
+							(userRef) =>
+								deletedUserId !== readField('id', userRef),
+						)
+					},
+				},
+			})
+		},
 	})
 
 	useEffect(() => {

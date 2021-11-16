@@ -58,6 +58,9 @@ export const DELETE_USER = gql`
 	mutation Delete_users($where: users_bool_exp!) {
 		delete_users(where: $where) {
 			affected_rows
+			returning {
+				id
+			}
 		}
 	}
 `

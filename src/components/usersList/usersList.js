@@ -1,23 +1,24 @@
 import { useQuery } from '@apollo/client'
-import { useContext, useEffect } from 'react'
 import { GET_USERS } from '../../api'
-import { Context } from '../../App'
 import './usersList.css'
+import { NavLink } from 'react-router-dom'
 
 const UserCard = ({ user }) => {
-	const { selectedUser, setSelectedUser } = useContext(Context)
-
-	const cardClassName = `user-card ${
-		selectedUser === user.id ? 'user-card_active' : ''
-	}`
+	// const cardClassName = `user-card ${
+	// 	selectedUser === user.id ? 'user-card_active' : ''
+	// }`
 
 	return (
-		<div onClick={() => setSelectedUser(user.id)} className={cardClassName}>
+		<NavLink
+			to={`/user/${user.id}`}
+			className='user-card'
+			activeClassName='user-card_active'
+		>
 			<p>Name:</p>
 			<p>{user.name || 'no name'}</p>
 			<p>Rocket:</p>
 			<p>{user.rocket || 'no rocket'}</p>
-		</div>
+		</NavLink>
 	)
 }
 

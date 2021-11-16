@@ -1,17 +1,10 @@
-import { gql, useMutation } from '@apollo/client'
-import { useContext, useState } from 'react'
-import {
-	CREATE_USER,
-	GET_SINGLE_USER,
-	GET_USERS,
-	USER_FRAGMENT,
-} from '../../api'
-import { Context } from '../../App'
+import { useMutation } from '@apollo/client'
+import { useState } from 'react'
+import { CREATE_USER, USER_FRAGMENT } from '../../api'
 import { FormField } from '../formField/formField'
 import './createUserModal.css'
 
 const CreateUserModal = ({ toggleIsOpen }) => {
-	const { setSelectedUser } = useContext(Context)
 	const [userData, setUserData] = useState({
 		name: '',
 		twitter: '',
@@ -43,13 +36,11 @@ const CreateUserModal = ({ toggleIsOpen }) => {
 
 	const handleCreateUser = async (e) => {
 		e.preventDefault()
-		const r = await createUser({
+		await createUser({
 			variables: {
 				objects: [userData],
 			},
 		})
-
-		setSelectedUser(r.data?.user?.returning?.[0]?.id)
 		toggleIsOpen()
 	}
 

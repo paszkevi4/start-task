@@ -12,6 +12,8 @@
 	grid-gap: 5px;
 	cursor: pointer;
 	border-bottom: 2px solid transparent;
+	text-decoration: none;
+	color: #000;
 }
 
 .user-card_active {
