@@ -2,9 +2,11 @@ import { useMutation } from '@apollo/client'
 import { useState } from 'react'
 import { CREATE_USER, USER_FRAGMENT } from '../../api'
 import { FormField } from '../formField/formField'
+import { withRouter } from 'react-router-dom'
 import './createUserModal.css'
 
-const CreateUserModal = ({ toggleIsOpen }) => {
+const CreateUserModal = ({ toggleIsOpen, history }) => {
+	console.log('~ history', history)
 	const [userData, setUserData] = useState({
 		name: '',
 		twitter: '',
@@ -20,6 +22,7 @@ const CreateUserModal = ({ toggleIsOpen }) => {
 	const [createUser] = useMutation(CREATE_USER, {
 		update: (cache, { data }) => {
 			const createdUser = data.user.returning[0]
+			history.push(`/user/${createdUser.id}`)
 			cache.modify({
 				fields: {
 					users(existingUsers = []) {
@@ -73,4 +76,4 @@ const CreateUserModal = ({ toggleIsOpen }) => {
 	)
 }
 
-export default CreateUserModal
+export default withRouter(CreateUserModal)

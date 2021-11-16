@@ -22,6 +22,7 @@ const UsersPage = (props) => {
 		variables: {
 			where: { id: { _eq: userId } },
 		},
+		onCompleted: () => props.history.push(`/`),
 		update: (cache, { data }) => {
 			const deletedUserId = data.delete_users?.returning?.[0]?.id
 			cache.modify({
